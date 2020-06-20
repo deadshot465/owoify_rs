@@ -6,4 +6,5 @@ extern crate lazy_static;
 mod structures;
 mod traits;
 mod utility;
+pub use traits::Owoifiable;
 pub use traits::OwoifyLevel;
