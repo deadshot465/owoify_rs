@@ -1,7 +1,5 @@
 use regex::{Captures, Regex};
 use std::collections::HashSet;
-use std::fmt::{Display, Formatter};
-use std::fmt;
 
 #[derive(Debug)]
 pub struct Word {
@@ -9,9 +7,9 @@ pub struct Word {
     pub replaced_words: HashSet<String>
 }
 
-impl Display for Word {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(f, "{}", &self.word)
+impl ToString for Word {
+    fn to_string(&self) -> String {
+        self.word.clone()
     }
 }
 
