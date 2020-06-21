@@ -8,7 +8,7 @@ description = "This Rust port of mohan-cao's owoify-js is released under MIT lic
 homepage = "https://github.com/deadshot465/owoify_rs"
 repository = "https://github.com/deadshot465/owoify_rs"
 readme = "README.md"
-keywords = ["rust", "Rust", "owoify", "fun", "funny", "nonsensical", "nonsense", "curse", "cursed", "baby", "babyspeak"]
+keywords = ["fun", "nonsense", "curse", "baby", "babyspeak"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
