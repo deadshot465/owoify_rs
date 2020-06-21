@@ -1,6 +1,5 @@
-use onig::{Captures, Regex};
+use regex::{Captures, Regex};
 use std::collections::HashSet;
-use crate::structures::Dollarified;
 
 #[derive(Debug)]
 pub struct Word {
@@ -29,23 +28,20 @@ impl Word {
         }
         let mut replacing_word = self.word.clone();
         if search_value.is_match(self.word.as_str()) {
-            if replace_value.contains('$') {
-                replacing_word = search_value.replace_all(self.word.as_str(), Dollarified(replace_value)).parse().unwrap();
-            }
-            else {
-                replacing_word = search_value.replace_all(self.word.as_str(), replace_value).parse().unwrap();
-            }
+            replacing_word = search_value.replace_all(self.word.as_str(), replace_value).parse().unwrap();
         }
         let collection = search_value.captures_iter(self.word.as_str())
             .collect::<Vec<Captures>>();
         let replaced_words: Vec<String> = if collection.len() > 1 {
             collection.into_iter()
                 .map(|c| c
-                    .at(0)
+                    .get(0)
                     .unwrap()
+                    .as_str()
                     .replace(c
-                                 .at(0)
-                                 .unwrap(), replace_value))
+                                 .get(0)
+                                 .unwrap()
+                                 .as_str(), replace_value))
                 .collect()
         } else {
             vec![]
@@ -75,8 +71,9 @@ impl Word {
             let match_item = search_value
                 .captures(self.word.as_str())
                 .unwrap()
-                .at(0)
-                .unwrap();
+                .get(0)
+                .unwrap()
+                .as_str();
 
             replacing_word = self.word
                 .as_str()
@@ -88,11 +85,13 @@ impl Word {
         let replaced_words: Vec<String> = if collection.len() > 1 {
             collection.into_iter()
                 .map(|c| c
-                    .at(0)
+                    .get(0)
                     .unwrap()
+                    .as_str()
                     .replace(c
-                                 .at(0)
-                                 .unwrap(), replace_value.as_str()))
+                                 .get(0)
+                                 .unwrap()
+                                 .as_str(), replace_value.as_str()))
                 .collect()
         } else {
             vec![]
@@ -118,11 +117,13 @@ impl Word {
         let captures = search_value.captures(word.as_str())
             .unwrap();
         let replace_value = func(captures
-                                     .at(1)
-                                     .unwrap(),
+                                     .get(1)
+                                     .unwrap()
+                                     .as_str(),
                                  captures
-                                     .at(2)
-                                     .unwrap());
+                                     .get(2)
+                                     .unwrap()
+                                     .as_str());
 
         if !replace_replaced_words &&
             self.search_value_contains_replaced_words(&search_value, &replace_value) {
@@ -130,15 +131,16 @@ impl Word {
         }
 
         let replacing_word = self.word
-            .replace(captures.at(0).unwrap(),replace_value.as_str());
+            .replace(captures.get(0).unwrap().as_str(),replace_value.as_str());
         let collection = search_value.captures_iter(self.word.as_str())
             .collect::<Vec<Captures>>();
         let replaced_words = if collection.len() > 1 {
             collection.into_iter()
                 .map(|c| c
-                    .at(0)
+                    .get(0)
                     .unwrap()
-                    .replace(c.at(0).unwrap(), replace_value.as_str()))
+                    .as_str()
+                    .replace(c.get(0).unwrap().as_str(), replace_value.as_str()))
                 .collect::<Vec<String>>()
         } else {
             vec![]
@@ -160,8 +162,9 @@ impl Word {
                 if search_value.is_match(s.as_str()) {
                     let match_result = search_value.captures(s.as_str())
                         .unwrap()
-                        .at(1)
-                        .unwrap();
+                        .get(1)
+                        .unwrap()
+                        .as_str();
                     return s.replace(match_result, replace_value) == *s;
                 }
                 false
