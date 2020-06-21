@@ -1,5 +1,6 @@
 use onig::{Captures, Regex};
 use std::collections::HashSet;
+use crate::structures::Dollarified;
 
 #[derive(Debug)]
 pub struct Word {
@@ -28,7 +29,12 @@ impl Word {
         }
         let mut replacing_word = self.word.clone();
         if search_value.is_match(self.word.as_str()) {
-            replacing_word = search_value.replace_all(self.word.as_str(), replace_value).parse().unwrap();
+            if replace_value.contains('$') {
+                replacing_word = search_value.replace_all(self.word.as_str(), Dollarified(replace_value)).parse().unwrap();
+            }
+            else {
+                replacing_word = search_value.replace_all(self.word.as_str(), replace_value).parse().unwrap();
+            }
         }
         let collection = search_value.captures_iter(self.word.as_str())
             .collect::<Vec<Captures>>();

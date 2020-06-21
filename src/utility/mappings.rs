@@ -88,7 +88,7 @@ pub fn map_ew_to_uwu(input: &mut Word) -> &Word {
 
 pub fn map_hey_to_hay(input: &mut Word) -> &Word {
     let reg: &Regex = &*HEY_TO_HAY;
-    input.replace(reg, "${1}ay", false)
+    input.replace(reg, "$1ay", false)
 }
 
 pub fn map_dead_to_ded(input: &mut Word) -> &Word {
@@ -184,14 +184,14 @@ pub fn map_vowel_or_r_except_o_l_to_wl(input: &mut Word) -> &Word {
     let reg_upper: &Regex = &*VOWEL_OR_R_EXCEPT_O_L_TO_WL_UPPER;
     let reg_lower: &Regex = &*VOWEL_OR_R_EXCEPT_O_L_TO_WL_LOWER;
     input.replace(reg_lower, "wl", false);
-    input.replace(reg_upper, "W${1}", false);
+    input.replace(reg_upper, "W$1", false);
     input
 }
 
 pub fn map_old_to_owld(input: &mut Word) -> &Word {
     let reg_upper: &Regex = &*OLD_TO_OWLD_UPPER;
     let reg_lower: &Regex = &*OLD_TO_OWLD_LOWER;
-    input.replace(reg_lower, "${1}wld", false);
+    input.replace(reg_lower, "$1wld", false);
     input.replace(reg_upper, "OWLD", false);
     input
 }
@@ -199,7 +199,7 @@ pub fn map_old_to_owld(input: &mut Word) -> &Word {
 pub fn map_ol_to_owl(input: &mut Word) -> &Word {
     let reg_upper: &Regex = &*OL_TO_OWL_UPPER;
     let reg_lower: &Regex = &*OL_TO_OWL_LOWER;
-    input.replace(reg_lower, "${1}wl", false);
+    input.replace(reg_lower, "$1wl", false);
     input.replace(reg_upper, "OWL", false);
     input
 }
@@ -208,14 +208,14 @@ pub fn map_l_or_r_o_to_wo(input: &mut Word) -> &Word {
     let reg_upper: &Regex = &*LORR_O_TO_WO_UPPER;
     let reg_lower: &Regex = &*LORR_O_TO_WO_LOWER;
     input.replace(reg_lower, "wo", false);
-    input.replace(reg_upper, "W${1}", false);
+    input.replace(reg_upper, "W$1", false);
     input
 }
 
 pub fn map_specific_consonants_o_to_letter_and_wo(input: &mut Word) -> &Word {
     let reg_upper: &Regex = &*SPECIFIC_CONSONANTS_O_TO_LETTER_AND_WO_UPPER;
     let reg_lower: &Regex = &*SPECIFIC_CONSONANTS_O_TO_LETTER_AND_WO_LOWER;
-    input.replace(reg_lower, "${1}wo", false);
+    input.replace(reg_lower, "$1wo", false);
     input.replace_with_func_multiple(reg_upper, |s1, s2| {
         let mut msg = s1.to_string();
         msg += if s2.to_uppercase() == s2.to_string() {
@@ -237,7 +237,7 @@ pub fn map_v_or_w_le_to_wal(input: &mut Word) -> &Word {
 pub fn map_fi_to_fwi(input: &mut Word) -> &Word {
     let reg_upper: &Regex = &*FI_TO_FWI_UPPER;
     let reg_lower: &Regex = &*FI_TO_FWI_LOWER;
-    input.replace(reg_lower, "${1}wi", false);
+    input.replace(reg_lower, "$1wi", false);
     input.replace(reg_upper, "FWI", false);
     input
 }
@@ -249,17 +249,17 @@ pub fn map_ver_to_wer(input: &mut Word) -> &Word {
 
 pub fn map_poi_to_pwoi(input: &mut Word) -> &Word {
     let reg: &Regex = &*POI_TO_PWOI;
-    input.replace(reg, "${1}woi", false)
+    input.replace(reg, "$1woi", false)
 }
 
 pub fn map_specific_consonants_le_to_letter_and_wal(input: &mut Word) -> &Word {
     let reg: &Regex = &*SPECIFIC_CONSONANTS_LE_TO_LETTER_AND_WAL;
-    input.replace(reg, "${1}wal", false)
+    input.replace(reg, "$1wal", false)
 }
 
 pub fn map_consonant_r_to_consonant_w(input: &mut Word) -> &Word {
     let reg: &Regex = &*CONSONANT_R_TO_CONSONANT_W;
-    input.replace(reg, "${1}w", false)
+    input.replace(reg, "$1w", false)
 }
 
 pub fn map_ly_to_wy(input: &mut Word) -> &Word {
@@ -285,26 +285,26 @@ pub fn map_nr_to_nw(input: &mut Word) -> &Word {
 
 pub fn map_fuc_to_fwuc(input: &mut Word) -> &Word {
     let reg: &Regex = &*FUC_TO_FWUC;
-    input.replace(reg, "${1}wuc", false)
+    input.replace(reg, "$1wuc", false)
 }
 
 pub fn map_mom_to_mwom(input: &mut Word) -> &Word {
     let reg: &Regex = &*MOM_TO_MWOM;
-    input.replace(reg, "${1}wom", false)
+    input.replace(reg, "$1wom", false)
 }
 
 pub fn map_me_to_mwe(input: &mut Word) -> &Word {
     let reg: &Regex = &*ME_TO_MWE;
-    input.replace(reg, "${1}we", false)
+    input.replace(reg, "$1we", false)
 }
 
 pub fn map_n_vowel_to_ny(input: &mut Word) -> &Word {
     let reg_first: &Regex = &*N_VOWEL_TO_NY_FIRST;
     let reg_second: &Regex = &*N_VOWEL_TO_NY_SECOND;
     let reg_third: &Regex = &*N_VOWEL_TO_NY_THIRD;
-    input.replace(reg_first, "ny${1}", false);
-    input.replace(reg_second, "Ny${1}", false);
-    input.replace(reg_third, "NY${1}", false);
+    input.replace(reg_first, "ny$1", false);
+    input.replace(reg_second, "Ny$1", false);
+    input.replace(reg_third, "NY$1", false);
     input
 }
 
@@ -323,7 +323,7 @@ pub fn map_haha_to_hehe_xd(input: &mut Word) -> &Word {
 
 pub fn map_the_to_teh(input: &mut Word) -> &Word {
     let reg: &Regex = &*THE_TO_TEH;
-    input.replace(reg, "${1}eh", false)
+    input.replace(reg, "$1eh", false)
 }
 
 pub fn map_you_to_u(input: &mut Word) -> &Word {
@@ -336,15 +336,15 @@ pub fn map_you_to_u(input: &mut Word) -> &Word {
 
 pub fn map_time_to_tim(input: &mut Word) -> &Word {
     let reg: &Regex = &*TIME_TO_TIM;
-    input.replace(reg, "${1}im", false)
+    input.replace(reg, "$1im", false)
 }
 
 pub fn map_over_to_owor(input: &mut Word) -> &Word {
     let reg: &Regex = &*OVER_TO_OWOR;
-    input.replace(reg, "${1}wor", false)
+    input.replace(reg, "$1wor", false)
 }
 
 pub fn map_worse_to_wose(input: &mut Word) -> &Word {
     let reg: &Regex = &*WORSE_TO_WOSE;
-    input.replace(reg, "${1}ose", false)
+    input.replace(reg, "$1ose", false)
 }

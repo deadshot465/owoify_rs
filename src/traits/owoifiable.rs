@@ -61,6 +61,7 @@ impl Owoifiable for String {
                         for func in UVU_MAPPING_LIST.iter() {
                             func(&mut w);
                         }
+                        println!("{}", w.word.as_str());
                         for func in UWU_MAPPING_LIST.iter() {
                             func(&mut w);
                         }
