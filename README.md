@@ -1,7 +1,7 @@
 # Owoify-rs
 Turning your worst nightmare into a crate package.
 
-- [Crate package]()
+- [Crate package](https://crates.io/crates/owoify_rs)
 
 This is a Rust port of [mohan-cao's owoify-js](https://github.com/mohan-cao/owoify-js), which will help you turn any string into nonsensical babyspeak similar to LeafySweet's infamous Chrome extension.
 
