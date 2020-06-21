@@ -61,7 +61,6 @@ impl Owoifiable for String {
                         for func in UVU_MAPPING_LIST.iter() {
                             func(&mut w);
                         }
-                        println!("{}", w.word.as_str());
                         for func in UWU_MAPPING_LIST.iter() {
                             func(&mut w);
                         }
@@ -74,8 +73,6 @@ impl Owoifiable for String {
                 w
             })
             .collect();
-
-        println!("{:?}", words);
 
         let result = interleave_arrays(words, spaces);
         let result_string: String = result.iter().map(ToString::to_string).collect();
