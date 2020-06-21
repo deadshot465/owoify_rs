@@ -8,6 +8,6 @@ edition = "2018"
 
 [dependencies]
 lazy_static = "1.4.0"
-onig = "6.0.0"
+onig = { version = "6", default-features = false }
 rand = "0.7.3"
 regex = "1"

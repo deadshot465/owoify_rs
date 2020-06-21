@@ -124,7 +124,7 @@ impl Word {
         }
 
         let replacing_word = self.word
-            .replace(captures.get(0).unwrap().as_str(),replace_value.as_str());
+            .replace(captures.at(0).unwrap(),replace_value.as_str());
         let collection = search_value.captures_iter(self.word.as_str())
             .collect::<Vec<Captures>>();
         let replaced_words = if collection.len() > 1 {
