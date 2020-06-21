@@ -1,4 +1,4 @@
-use regex::{Captures, Regex};
+use onig::{Captures, Regex};
 use std::collections::HashSet;
 
 #[derive(Debug)]
@@ -35,13 +35,11 @@ impl Word {
         let replaced_words: Vec<String> = if collection.len() > 1 {
             collection.into_iter()
                 .map(|c| c
-                    .get(0)
+                    .at(0)
                     .unwrap()
-                    .as_str()
                     .replace(c
-                                 .get(0)
-                                 .unwrap()
-                                 .as_str(), replace_value))
+                                 .at(0)
+                                 .unwrap(), replace_value))
                 .collect()
         } else {
             vec![]
@@ -71,9 +69,8 @@ impl Word {
             let match_item = search_value
                 .captures(self.word.as_str())
                 .unwrap()
-                .get(0)
-                .unwrap()
-                .as_str();
+                .at(0)
+                .unwrap();
 
             replacing_word = self.word
                 .as_str()
@@ -85,13 +82,11 @@ impl Word {
         let replaced_words: Vec<String> = if collection.len() > 1 {
             collection.into_iter()
                 .map(|c| c
-                    .get(0)
+                    .at(0)
                     .unwrap()
-                    .as_str()
                     .replace(c
-                                 .get(0)
-                                 .unwrap()
-                                 .as_str(), replace_value.as_str()))
+                                 .at(0)
+                                 .unwrap(), replace_value.as_str()))
                 .collect()
         } else {
             vec![]
@@ -117,13 +112,11 @@ impl Word {
         let captures = search_value.captures(word.as_str())
             .unwrap();
         let replace_value = func(captures
-                                     .get(1)
-                                     .unwrap()
-                                     .as_str(),
+                                     .at(1)
+                                     .unwrap(),
                                  captures
-                                     .get(2)
-                                     .unwrap()
-                                     .as_str());
+                                     .at(2)
+                                     .unwrap());
 
         if !replace_replaced_words &&
             self.search_value_contains_replaced_words(&search_value, &replace_value) {
@@ -137,10 +130,9 @@ impl Word {
         let replaced_words = if collection.len() > 1 {
             collection.into_iter()
                 .map(|c| c
-                    .get(0)
+                    .at(0)
                     .unwrap()
-                    .as_str()
-                    .replace(c.get(0).unwrap().as_str(), replace_value.as_str()))
+                    .replace(c.at(0).unwrap(), replace_value.as_str()))
                 .collect::<Vec<String>>()
         } else {
             vec![]
@@ -162,9 +154,8 @@ impl Word {
                 if search_value.is_match(s.as_str()) {
                     let match_result = search_value.captures(s.as_str())
                         .unwrap()
-                        .get(1)
-                        .unwrap()
-                        .as_str();
+                        .at(1)
+                        .unwrap();
                     return s.replace(match_result, replace_value) == *s;
                 }
                 false

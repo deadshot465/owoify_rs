@@ -1,4 +1,4 @@
-use regex::{Regex, Captures};
+use onig::{Regex, Captures};
 use crate::utility::{
     OWO_MAPPING_LIST, SPECIFIC_WORD_MAPPING_LIST, UVU_MAPPING_LIST, UWU_MAPPING_LIST,
     interleave_arrays
@@ -25,14 +25,14 @@ impl Owoifiable for String {
 
         let mut words = word_matches.into_iter()
             .map(|c| Word {
-                word: String::from(c.get(0).unwrap().as_str()),
+                word: String::from(c.at(0).unwrap()),
                 replaced_words: HashSet::new()
             })
             .collect::<Vec<Word>>();
 
         let spaces = space_matches.into_iter()
             .map(|c| Word {
-                word: String::from(c.get(0).unwrap().as_str()),
+                word: String::from(c.at(0).unwrap()),
                 replaced_words: HashSet::new()
             })
             .collect::<Vec<Word>>();
@@ -73,6 +73,8 @@ impl Owoifiable for String {
                 w
             })
             .collect();
+
+        println!("{:?}", words);
 
         let result = interleave_arrays(words, spaces);
         let result_string: String = result.iter().map(ToString::to_string).collect();
