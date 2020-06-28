@@ -162,7 +162,7 @@ impl Word {
                 if search_value.is_match(s.as_str()) {
                     let match_result = search_value.captures(s.as_str())
                         .unwrap()
-                        .get(1)
+                        .get(0)
                         .unwrap()
                         .as_str();
                     return s.replace(match_result, replace_value) == *s;
