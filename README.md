@@ -1,6 +1,8 @@
 # Owoify-rs
 Turning your worst nightmare into a crate package.
 
+![Rust](https://github.com/deadshot465/owoify_rs/workflows/Rust/badge.svg)
+
 - [Crate package](https://crates.io/crates/owoify_rs)
 
 This is a Rust port of [mohan-cao's owoify-js](https://github.com/mohan-cao/owoify-js), which will help you turn any string into nonsensical babyspeak similar to LeafySweet's infamous Chrome extension.
@@ -13,6 +15,9 @@ Just like owoify-js, three levels are available for owoifying your texts:
 
 Please refer to the original [owoify-js repository](https://github.com/mohan-cao/owoify-js) for more information.
 
+## Changelog
+- v0.1.3 - Use lazy static for word and space regex. (Thanks to [maxjoehnk](https://github.com/maxjoehnk).)
+
 ## Reason for development
 While there is already an [owoify](https://crates.io/crates/owoify) crate on crates.io, it doesn't provide different levels of owoness, and the owoness is also lighter, which makes the resulting sentences far more readable. For any user who wants to use owoify, the less readable the sentence, the better in my humble opinion.
 
@@ -20,7 +25,7 @@ While there is already an [owoify](https://crates.io/crates/owoify) crate on cra
 Just like any crates, simply put this line inside your `Cargo.toml`:
 ```toml
 [dependencies]
-owoify_rs = "0.1.0"
+owoify_rs = "0.1.3"
 ```
 Alternatively, pull the crate directly from the repository:
 ```toml
