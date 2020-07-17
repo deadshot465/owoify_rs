@@ -6,6 +6,11 @@ use crate::utility::{
 use crate::structures::Word;
 use std::collections::HashSet;
 
+lazy_static! {
+    static ref WORD_REGEX: Regex = Regex::new(r"[^\s]+").unwrap();
+    static ref SPACE_REGEX: Regex = Regex::new(r"\s+").unwrap();
+}
+
 pub enum OwoifyLevel {
     Owo, Uwu, Uvu
 }
@@ -16,11 +21,9 @@ pub trait Owoifiable {
 
 impl Owoifiable for String {
     fn owoify(&self, level: &OwoifyLevel) -> String {
-        let word_regex = Regex::new(r"[^\s]+").unwrap();
-        let word_matches = word_regex.captures_iter(self.as_str())
+        let word_matches = WORD_REGEX.captures_iter(self.as_str())
             .collect::<Vec<Captures>>();
-        let space_regex = Regex::new(r"\s+").unwrap();
-        let space_matches = space_regex.captures_iter(self.as_str())
+        let space_matches = SPACE_REGEX.captures_iter(self.as_str())
             .collect::<Vec<Captures>>();
 
         let mut words = word_matches.into_iter()
