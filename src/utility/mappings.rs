@@ -275,7 +275,7 @@ pub fn map_ly_to_wy(input: &mut Word) -> &Word {
 
 pub fn map_ple_to_pwe(input: &mut Word) -> &Word {
     let reg: &Regex = &*PLE_TO_PWE;
-    input.replace(reg, "1we", false)
+    input.replace(reg, "${1}we", false)
 }
 
 pub fn map_nr_to_nw(input: &mut Word) -> &Word {
