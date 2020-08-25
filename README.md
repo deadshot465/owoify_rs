@@ -16,6 +16,7 @@ Just like owoify-js, three levels are available for owoifying your texts:
 Please refer to the original [owoify-js repository](https://github.com/mohan-cao/owoify-js) for more information.
 
 ## Changelog
+- v0.1.5 - Add more kaomojis.
 - v0.1.4 - Bug fixes.
 - v0.1.3 - Use lazy static for word and space regex. (Thanks to [maxjoehnk](https://github.com/maxjoehnk).)
 
