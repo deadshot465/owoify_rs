@@ -1,6 +1,6 @@
 [package]
 name = "owoify_rs"
-version = "0.1.5"
+version = "0.2.0"
 authors = ["Chehui Chou"]
 edition = "2018"
 license = "MIT"
@@ -13,6 +13,6 @@ keywords = ["fun", "nonsense", "curse", "baby", "babyspeak"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-lazy_static = "1.4.0"
-rand = "0.7.3"
+lazy_static = "~1.4.0"
+rand = "~0.8.3"
 regex = "1"

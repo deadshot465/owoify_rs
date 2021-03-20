@@ -1,18 +1,23 @@
-use regex::{Regex, Captures};
-use crate::utility::{
-    OWO_MAPPING_LIST, SPECIFIC_WORD_MAPPING_LIST, UVU_MAPPING_LIST, UWU_MAPPING_LIST,
-    interleave_arrays
-};
 use crate::structures::Word;
+use crate::utility::{
+    interleave_arrays, OWO_MAPPING_LIST, SPECIFIC_WORD_MAPPING_LIST, UVU_MAPPING_LIST,
+    UWU_MAPPING_LIST,
+};
+use regex::Regex;
 use std::collections::HashSet;
 
 lazy_static! {
-    static ref WORD_REGEX: Regex = Regex::new(r"[^\s]+").unwrap();
-    static ref SPACE_REGEX: Regex = Regex::new(r"\s+").unwrap();
+    static ref WORD_REGEX: Regex =
+        Regex::new(r"[^\s]+").expect("Failed to build regular expression.");
+    static ref SPACE_REGEX: Regex =
+        Regex::new(r"\s+").expect("Failed to build regular expression.");
 }
 
+#[derive(Copy, Clone, Debug)]
 pub enum OwoifyLevel {
-    Owo, Uwu, Uvu
+    Owo,
+    Uwu,
+    Uvu,
 }
 
 pub trait Owoifiable {
@@ -21,54 +26,63 @@ pub trait Owoifiable {
 
 impl Owoifiable for String {
     fn owoify(&self, level: &OwoifyLevel) -> String {
-        let word_matches = WORD_REGEX.captures_iter(self.as_str())
-            .collect::<Vec<Captures>>();
-        let space_matches = SPACE_REGEX.captures_iter(self.as_str())
-            .collect::<Vec<Captures>>();
+        let word_matches = WORD_REGEX.captures_iter(self.as_str());
+        let space_matches = SPACE_REGEX.captures_iter(self.as_str());
 
-        let mut words = word_matches.into_iter()
+        let mut words = word_matches
+            .into_iter()
             .map(|c| Word {
-                word: String::from(c.get(0).unwrap().as_str()),
-                replaced_words: HashSet::new()
+                word: String::from(
+                    c.get(0)
+                        .expect("Cannot get matched item at index 0 of the capture.")
+                        .as_str(),
+                ),
+                replaced_words: HashSet::new(),
             })
-            .collect::<Vec<Word>>();
+            .collect::<Vec<_>>();
 
-        let spaces = space_matches.into_iter()
+        let spaces = space_matches
+            .into_iter()
             .map(|c| Word {
-                word: String::from(c.get(0).unwrap().as_str()),
-                replaced_words: HashSet::new()
+                word: String::from(
+                    c.get(0)
+                        .expect("Cannot get matched item at index 0 of the capture.")
+                        .as_str(),
+                ),
+                replaced_words: HashSet::new(),
             })
-            .collect::<Vec<Word>>();
+            .collect::<Vec<_>>();
 
-        words = words.into_iter()
+        words = words
+            .into_iter()
             .map(|mut w| {
                 for func in SPECIFIC_WORD_MAPPING_LIST.iter() {
-                    func(&mut w);
+                    w = func(w);
                 }
 
                 match level {
                     OwoifyLevel::Owo => {
                         for func in OWO_MAPPING_LIST.iter() {
-                            func(&mut w);
+                            w = func(w);
                         }
-                    },
+                    }
                     OwoifyLevel::Uwu => {
                         for func in UWU_MAPPING_LIST.iter() {
-                            func(&mut w);
+                            w = func(w);
                         }
                         for func in OWO_MAPPING_LIST.iter() {
-                            func(&mut w);
+                            w = func(w);
                         }
-                    },
+                    }
                     OwoifyLevel::Uvu => {
                         for func in UVU_MAPPING_LIST.iter() {
-                            func(&mut w);
+                            w = func(w);
                         }
                         for func in UWU_MAPPING_LIST.iter() {
-                            func(&mut w);
+                            w = func(w);
                         }
                         for func in OWO_MAPPING_LIST.iter() {
-                            func(&mut w);
+                            w = func(w);
                         }
                     }
                 };

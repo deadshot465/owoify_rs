@@ -1,2 +1,2 @@
-pub mod word;
+mod word;
 pub use word::Word;

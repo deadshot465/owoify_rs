@@ -1,5 +1,5 @@
-pub mod interleave_arrays;
-pub mod mappings;
-pub mod presets;
+mod interleave_arrays;
+mod mappings;
+mod presets;
 pub use interleave_arrays::interleave_arrays;
 pub use presets::*;

@@ -16,6 +16,7 @@ Just like owoify-js, three levels are available for owoifying your texts:
 Please refer to the original [owoify-js repository](https://github.com/mohan-cao/owoify-js) for more information.
 
 ## Changelog
+- v0.2.0 - Apply clippy, properly make use Rust's ownership, and implement proper builder pattern.
 - v0.1.5 - Add more kaomojis.
 - v0.1.4 - Bug fixes.
 - v0.1.3 - Use lazy static for word and space regex. (Thanks to [maxjoehnk](https://github.com/maxjoehnk).)
@@ -27,7 +28,7 @@ While there is already an [owoify](https://crates.io/crates/owoify) crate on cra
 Just like any crates, simply put this line inside your `Cargo.toml`:
 ```toml
 [dependencies]
-owoify_rs = "0.1.4"
+owoify_rs = "~0.2.0"
 ```
 Alternatively, pull the crate directly from the repository:
 ```toml

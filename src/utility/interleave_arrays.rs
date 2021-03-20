@@ -5,7 +5,7 @@ pub fn interleave_arrays<T>(a: Vec<T>, b: Vec<T>) -> Vec<T> {
     let mut observed = a;
     let mut other = b;
 
-    while observed.len() > 0 {
+    while !observed.is_empty() {
         arr.push(observed.remove(0));
         swap(&mut observed, &mut other);
     }
