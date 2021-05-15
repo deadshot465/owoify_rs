@@ -14,6 +14,8 @@ mod tests {
     use crate::{Owoifiable, OwoifyLevel};
 
     const SOURCE: &str = "Hello World! This is the string to owo! Kinda cute, isn't it?";
+    const POKEMON_NAME_LIST_PATH: &str = "assets/pokemons.txt";
+    const WAR_AND_PEACE_PATH: &str = "assets/war_and_peace_chapter01-20.txt";
 
     #[test]
     fn test_owoify() {
@@ -57,5 +59,31 @@ mod tests {
             SOURCE.owoify(&OwoifyLevel::Uwu),
             SOURCE.owoify(&OwoifyLevel::Uvu)
         );
+    }
+
+    #[test]
+    fn test_pokemon_names() {
+        let pokemons = std::fs::read_to_string(POKEMON_NAME_LIST_PATH)
+            .expect("Failed to read pokemon names from the disk.");
+        pokemons.split("\n").for_each(|name| {
+            let name_with_owo = name.owoify(&OwoifyLevel::Owo);
+            let name_with_uwu = name.owoify(&OwoifyLevel::Uwu);
+            let name_with_uvu = name.owoify(&OwoifyLevel::Uvu);
+            assert_ne!(name_with_owo, "".to_string());
+            assert_ne!(name_with_uwu, "".to_string());
+            assert_ne!(name_with_uvu, "".to_string());
+        });
+    }
+
+    #[test]
+    fn test_long_text() {
+        let text = std::fs::read_to_string(WAR_AND_PEACE_PATH)
+            .expect("Failed to read war and peace from the disk.");
+        let text_with_owo = text.owoify(&OwoifyLevel::Owo);
+        let text_with_uwu = text.owoify(&OwoifyLevel::Uwu);
+        let text_with_uvu = text.owoify(&OwoifyLevel::Uvu);
+        assert_ne!(text_with_owo, "".to_string());
+        assert_ne!(text_with_uwu, "".to_string());
+        assert_ne!(text_with_uvu, "".to_string());
     }
 }
