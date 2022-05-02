@@ -22,7 +22,7 @@ While there is already an [owoify](https://crates.io/crates/owoify) crate on cra
 Just like any crates, simply put this line inside your `Cargo.toml`:
 ```toml
 [dependencies]
-owoify_rs = "~0.2.0"
+owoify_rs = "~1.0.0"
 ```
 Alternatively, pull the crate directly from the repository:
 ```toml
@@ -58,6 +58,19 @@ This crate was written to help myself get used to Rust's syntaxes and writing Ru
 
 ## See also
 - [owoify-js](https://github.com/mohan-cao/owoify-js) - The original owoify-js repository.
-- [owoify](https://crates.io/crates/owoify) - The existing owoify crate on crates.io.
 - [Owoify.Net](https://www.nuget.org/packages/Owoify.Net/1.0.1) - The C# port of Owoify written by me.
 - [Owoify++](https://github.com/deadshot465/OwoifyCpp) - The C++ header-only port of Owoify written by me.
+- [owoify_rs](https://crates.io/crates/owoify_rs) - The Rust port of Owoify written by me.
+- [owoify-py](https://pypi.org/project/owoify-py/) - The Python port of Owoify written by me.
+- [owoify_dart](https://pub.dev/packages/owoify_dart) - The Dart port of Owoify written by me.
+- [owoify_rb](https://rubygems.org/gems/owoify_rb) - The Ruby port of Owoify written by me.
+- [owoify-go](https://pkg.go.dev/github.com/deadshot465/owoify-go/v2) - The Go port of Owoify written by me.
+- [owoifySwift](https://github.com/deadshot465/OwoifySwift) - The Swift port of Owoify written by me.
+- [owoifyKt](https://search.maven.org/search?q=g:%22io.github.deadshot465%22%20AND%20a:%22owoifyKt%22) - The Kotlin port of Owoify written by me.
+- [owoify_ex](https://hex.pm/packages/owoify_ex) - The Elixir port of Owoify written by me.
+- [owoify_cr](https://crystalshards.org/shards/github/deadshot465/owoify_cr) - The Crystal port of Owoify written by me.
+- [owoifynim](https://nimble.directory/pkg/owoifynim) - The Nim port of Owoify written by me.
+- [owoify-clj](https://clojars.org/net.clojars.deadshot465/owoify-clj) - The Clojure port of Owoify written by me.
+- [purescript-owoify](https://pursuit.purescript.org/packages/purescript-owoify) - The PureScript port of Owoify written by me.
+- [owoify-hs](https://hackage.haskell.org/package/owoify-hs) - The Haskell port of Owoify written by me.
+- [owoify_erl](https://hex.pm/packages/owoify_erl) - The Erlang port of Owoify written by me.
