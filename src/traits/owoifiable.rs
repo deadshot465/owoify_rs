@@ -4,7 +4,9 @@ use crate::utility::{
     UWU_MAPPING_LIST,
 };
 use regex::Regex;
+use std::borrow::Cow;
 use std::collections::HashSet;
+use std::string::FromUtf8Error;
 
 lazy_static! {
     static ref WORD_REGEX: Regex =
@@ -13,6 +15,7 @@ lazy_static! {
         Regex::new(r"\s+").expect("Failed to build regular expression.");
 }
 
+/// The owoness level. Currently three levels are available (from lowest to highest): `Owo`, `Uwu`, `Uvu`.
 #[derive(Copy, Clone, Debug)]
 pub enum OwoifyLevel {
     Owo,
@@ -20,14 +23,47 @@ pub enum OwoifyLevel {
     Uvu,
 }
 
+/// A trait that could be implemented to owoify any ASCII string to babyspeak gibberish using the given owoness level ([`OwoifyLevel`][owoifyLevel]).
+///
+/// [owoifyLevel]: OwoifyLevel
 pub trait Owoifiable {
-    fn owoify(&self, level: &OwoifyLevel) -> String;
+    type ResultType;
+
+    /// Owoifies the source using the specified owoness level and returns a new `String`.
+    fn owoify(&self, level: OwoifyLevel) -> Self::ResultType;
 }
 
 impl Owoifiable for String {
-    fn owoify(&self, level: &OwoifyLevel) -> String {
-        let word_matches = WORD_REGEX.captures_iter(self.as_str());
-        let space_matches = SPACE_REGEX.captures_iter(self.as_str());
+    type ResultType = String;
+
+    /// Owoifies the given string using specified owoness level and returns a new `String`.
+    /// # Examples
+    /// ```rust
+    /// use owoify_rs::{Owoifiable, OwoifyLevel};
+    ///
+    /// let source = "Hello, World! Rust is fun!".to_string();
+    /// let result = source.owoify(OwoifyLevel::Owo);
+    /// assert_ne!(source, result);
+    /// ```
+    fn owoify(&self, level: OwoifyLevel) -> Self::ResultType {
+        self.as_str().owoify(level)
+    }
+}
+
+impl Owoifiable for &str {
+    type ResultType = String;
+
+    /// Owoifies the given string literal using specified owoness level and returns a new `String`.
+    /// # Examples
+    /// ```rust
+    /// use owoify_rs::{Owoifiable, OwoifyLevel};
+    ///
+    /// let result = "Hello, World! Rust is fun!".owoify(OwoifyLevel::Owo);
+    /// assert_ne!("Hello, World! Rust is fun!", result);
+    /// ```
+    fn owoify(&self, level: OwoifyLevel) -> Self::ResultType {
+        let word_matches = WORD_REGEX.captures_iter(self);
+        let space_matches = SPACE_REGEX.captures_iter(self);
 
         let mut words = word_matches
             .into_iter()
@@ -97,9 +133,28 @@ impl Owoifiable for String {
     }
 }
 
-impl Owoifiable for &str {
-    fn owoify(&self, level: &OwoifyLevel) -> String {
-        let owned = self.to_string();
-        owned.owoify(level)
+impl Owoifiable for Vec<u8> {
+    type ResultType = Result<String, FromUtf8Error>;
+
+    /// Owoifies the given string in bytes. The bytes are cloned and will return a new `String`.
+    /// Returns a `Result<String, FromUtf8Error>`.
+    fn owoify(&self, level: OwoifyLevel) -> Self::ResultType {
+        let clone = self.clone();
+        String::from_utf8(clone).map(|s| s.owoify(level))
+    }
+}
+
+impl Owoifiable for &[u8] {
+    type ResultType = String;
+
+    /// Owoifies the given string in byte slice form with invalid sequences replaced with [`U+FFFD REPLACEMENT CHARACTER`][U+FFFD].
+    /// Returns a new `String`.
+    ///
+    /// [U+FFFD]: core::char::REPLACEMENT_CHARACTER
+    fn owoify(&self, level: OwoifyLevel) -> Self::ResultType {
+        match String::from_utf8_lossy(self) {
+            Cow::Borrowed(s) => s.owoify(level),
+            Cow::Owned(s) => s.owoify(level),
+        }
     }
 }

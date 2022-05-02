@@ -1,2 +1,2 @@
 mod word;
-pub use word::Word;
+pub(crate) use word::Word;

@@ -15,12 +15,6 @@ Just like owoify-js, three levels are available for owoifying your texts:
 
 Please refer to the original [owoify-js repository](https://github.com/mohan-cao/owoify-js) for more information.
 
-## Changelog
-- v0.2.0 - Apply clippy, properly make use Rust's ownership, and implement proper builder pattern.
-- v0.1.5 - Add more kaomojis.
-- v0.1.4 - Bug fixes.
-- v0.1.3 - Use lazy static for word and space regex. (Thanks to [maxjoehnk](https://github.com/maxjoehnk).)
-
 ## Reason for development
 While there is already an [owoify](https://crates.io/crates/owoify) crate on crates.io, it doesn't provide different levels of owoness, and the owoness is also lighter, which makes the resulting sentences far more readable. For any user who wants to use owoify, the less readable the sentence, the better in my humble opinion.
 
@@ -45,8 +39,8 @@ use owoify_rs::{Owoifiable, OwoifyLevel};
 fn main() {
     let owo_str = String::from("This is the string to owo! Kinda cute isn't it?");
     let uvu_str = String::from("This is the string to owo! Kinda cute isn't it?");
-    println!("{}", owo_str.owoify(&OwoifyLevel::Owo));
-    println!("{}", uvu_str.owoify(&OwoifyLevel::Uvu));
+    println!("{}", owo_str.owoify(OwoifyLevel::Owo));
+    println!("{}", uvu_str.owoify(OwoifyLevel::Uvu));
 
     // Output:
     // This is teh stwing two owo! Kinda cute isn't it?

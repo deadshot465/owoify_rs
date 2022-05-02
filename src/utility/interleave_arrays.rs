@@ -1,6 +1,6 @@
 use std::mem::swap;
 
-pub fn interleave_arrays<T>(a: Vec<T>, b: Vec<T>) -> Vec<T> {
+pub(crate) fn interleave_arrays<T>(a: Vec<T>, b: Vec<T>) -> Vec<T> {
     let mut arr: Vec<T> = vec![];
     let mut observed = a;
     let mut other = b;

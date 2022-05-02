@@ -2,9 +2,9 @@ use regex::Regex;
 use std::collections::HashSet;
 
 #[derive(Debug, Clone)]
-pub struct Word {
-    pub word: String,
-    pub replaced_words: HashSet<String>,
+pub(crate) struct Word {
+    pub(crate) word: String,
+    pub(crate) replaced_words: HashSet<String>,
 }
 
 impl ToString for Word {
@@ -14,14 +14,14 @@ impl ToString for Word {
 }
 
 impl Word {
-    pub fn new() -> Self {
+    pub(crate) fn new() -> Self {
         Word {
             word: String::new(),
             replaced_words: HashSet::new(),
         }
     }
 
-    pub fn replace(
+    pub(crate) fn replace(
         mut self,
         search_value: &Regex,
         replace_value: &str,
@@ -68,7 +68,7 @@ impl Word {
         self
     }
 
-    pub fn replace_with_func_single<F>(
+    pub(crate) fn replace_with_func_single<F>(
         mut self,
         search_value: &Regex,
         func: F,
@@ -126,7 +126,7 @@ impl Word {
         self
     }
 
-    pub fn replace_with_func_multiple<F>(
+    pub(crate) fn replace_with_func_multiple<F>(
         mut self,
         search_value: &Regex,
         func: F,
