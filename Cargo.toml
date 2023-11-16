@@ -1,6 +1,6 @@
 [package]
 name = "owoify_rs"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Chehui Chou"]
 edition = "2018"
 license = "MIT"

@@ -1,3 +1,6 @@
+## 1.0.1
+- Bump up to 1.0.1
+
 ## 1.0.0
 - **(Breaking change)** Change `owoify` function to take a copy of `OwoifyLevel` instead since it's trivially copyable.
 - **(Breaking change)** Change the visibilities of all internal functions and constants to `pub(crate)` instead of `pub`.
