@@ -3,70 +3,85 @@ use crate::structures::Word;
 use rand::prelude::*;
 use regex::Regex;
 
+const RE_ERROR_MESSAGE: &str = "Failed to build regular expression.";
+
 lazy_static! {
-    static ref O_TO_OWO: Regex = Regex::new(r"o").expect("Failed to build regular expression.");
-    static ref EW_TO_UWU: Regex = Regex::new(r"ew").expect("Failed to build regular expression.");
-    static ref HEY_TO_HAY: Regex = Regex::new(r"([Hh])ey").expect("Failed to build regular expression.");
-    static ref DEAD_TO_DED_UPPER: Regex = Regex::new(r"Dead").expect("Failed to build regular expression.");
-    static ref DEAD_TO_DED_LOWER: Regex = Regex::new(r"dead").expect("Failed to build regular expression.");
-    static ref N_VOWEL_T_TO_ND: Regex = Regex::new(r"n[aeiou]*t").expect("Failed to build regular expression.");
-    static ref READ_TO_WEAD_UPPER: Regex = Regex::new(r"Read").expect("Failed to build regular expression.");
-    static ref READ_TO_WEAD_LOWER: Regex = Regex::new(r"read").expect("Failed to build regular expression.");
-    static ref BRACKETS_TO_STARTRAILS_FORE: Regex = Regex::new(r"[({<]").expect("Failed to build regular expression.");
-    static ref BRACKETS_TO_STARTRAILS_REAR: Regex = Regex::new(r"[)}>]").expect("Failed to build regular expression.");
-    //static ref PERIOD_COMMA_EXCLAMATION_SEMICOLON_TO_KAOMOJIS_FIRST: Regex = Regex::new(r"[.,](?![0-9])").expect("Failed to build regular expression.");
-    static ref PERIOD_COMMA_EXCLAMATION_SEMICOLON_TO_KAOMOJIS_FIRST: Regex = Regex::new(r"[.,]").expect("Failed to build regular expression.");
-    static ref PERIOD_COMMA_EXCLAMATION_SEMICOLON_TO_KAOMOJIS_SECOND: Regex = Regex::new(r"[!;]+").expect("Failed to build regular expression.");
-    static ref THAT_TO_DAT_UPPER: Regex = Regex::new(r"That").expect("Failed to build regular expression.");
-    static ref THAT_TO_DAT_LOWER: Regex = Regex::new(r"that").expect("Failed to build regular expression.");
-    //static ref TH_TO_F_UPPER: Regex = Regex::new(r"TH(?!E)").expect("Failed to build regular expression.");
-    static ref TH_TO_F_UPPER: Regex = Regex::new(r"TH").expect("Failed to build regular expression.");
-    //static ref TH_TO_F_LOWER: Regex = Regex::new(r"[Tt]h(?![Ee])").expect("Failed to build regular expression.");
-    static ref TH_TO_F_LOWER: Regex = Regex::new(r"[Tt]h").expect("Failed to build regular expression.");
-    static ref LE_TO_WAL: Regex = Regex::new(r"le$").expect("Failed to build regular expression.");
-    static ref VE_TO_WE_UPPER: Regex = Regex::new(r"Ve").expect("Failed to build regular expression.");
-    static ref VE_TO_WE_LOWER: Regex = Regex::new(r"ve").expect("Failed to build regular expression.");
-    static ref RY_TO_WWY: Regex = Regex::new(r"ry").expect("Failed to build regular expression.");
-    static ref RORL_TO_W_UPPER: Regex = Regex::new(r"(?:R|L)").expect("Failed to build regular expression.");
-    static ref RORL_TO_W_LOWER: Regex = Regex::new(r"(?:r|l)").expect("Failed to build regular expression.");
-    static ref LL_TO_WW: Regex = Regex::new(r"ll").expect("Failed to build regular expression.");
-    static ref VOWEL_OR_R_EXCEPT_O_L_TO_WL_UPPER: Regex = Regex::new(r"[AEIUR]([lL])$").expect("Failed to build regular expression.");
-    static ref VOWEL_OR_R_EXCEPT_O_L_TO_WL_LOWER: Regex = Regex::new(r"[aeiur]l$").expect("Failed to build regular expression.");
-    static ref OLD_TO_OWLD_UPPER: Regex = Regex::new(r"OLD").expect("Failed to build regular expression.");
-    static ref OLD_TO_OWLD_LOWER: Regex = Regex::new(r"([Oo])ld").expect("Failed to build regular expression.");
-    static ref OL_TO_OWL_UPPER: Regex = Regex::new(r"OL").expect("Failed to build regular expression.");
-    static ref OL_TO_OWL_LOWER: Regex = Regex::new(r"([Oo])l").expect("Failed to build regular expression.");
-    static ref LORR_O_TO_WO_UPPER: Regex = Regex::new(r"[LR]([oO])").expect("Failed to build regular expression.");
-    static ref LORR_O_TO_WO_LOWER: Regex = Regex::new(r"[lr]o").expect("Failed to build regular expression.");
-    static ref SPECIFIC_CONSONANTS_O_TO_LETTER_AND_WO_UPPER: Regex = Regex::new(r"([BCDFGHJKMNPQSTXYZ])([oO])").expect("Failed to build regular expression.");
-    static ref SPECIFIC_CONSONANTS_O_TO_LETTER_AND_WO_LOWER: Regex = Regex::new(r"([bcdfghjkmnpqstxyz])o").expect("Failed to build regular expression.");
-    static ref VORW_LE_TO_WAL: Regex = Regex::new(r"[vw]le").expect("Failed to build regular expression.");
-    static ref FI_TO_FWI_UPPER: Regex = Regex::new(r"FI").expect("Failed to build regular expression.");
-    static ref FI_TO_FWI_LOWER: Regex = Regex::new(r"([Ff])i").expect("Failed to build regular expression.");
-    static ref VER_TO_WER: Regex = Regex::new(r"([Vv])er").expect("Failed to build regular expression.");
-    static ref POI_TO_PWOI: Regex = Regex::new(r"([Pp])oi").expect("Failed to build regular expression.");
-    static ref SPECIFIC_CONSONANTS_LE_TO_LETTER_AND_WAL: Regex = Regex::new(r"([DdFfGgHhJjPpQqRrSsTtXxYyZz])le$").expect("Failed to build regular expression.");
-    static ref CONSONANT_R_TO_CONSONANT_W: Regex = Regex::new(r"([BbCcDdFfGgKkPpQqSsTtWwXxZz])r").expect("Failed to build regular expression.");
-    static ref LY_TO_WY_UPPER: Regex = Regex::new(r"Ly").expect("Failed to build regular expression.");
-    static ref LY_TO_WY_LOWER: Regex = Regex::new(r"ly").expect("Failed to build regular expression.");
-    static ref PLE_TO_PWE: Regex = Regex::new(r"([Pp])le").expect("Failed to build regular expression.");
-    static ref NR_TO_NW_UPPER: Regex = Regex::new(r"NR").expect("Failed to build regular expression.");
-    static ref NR_TO_NW_LOWER: Regex = Regex::new(r"nr").expect("Failed to build regular expression.");
-    static ref FUC_TO_FWUC: Regex = Regex::new(r"([Ff])uc").expect("Failed to build regular expression.");
-    static ref MOM_TO_MWOM: Regex = Regex::new(r"([Mm])om").expect("Failed to build regular expression.");
-    static ref ME_TO_MWE: Regex = Regex::new(r"([Mm])e").expect("Failed to build regular expression.");
-    static ref N_VOWEL_TO_NY_FIRST: Regex = Regex::new(r"n([aeiou])").expect("Failed to build regular expression.");
-    static ref N_VOWEL_TO_NY_SECOND: Regex = Regex::new(r"N([aeiou])").expect("Failed to build regular expression.");
-    static ref N_VOWEL_TO_NY_THIRD: Regex = Regex::new(r"N([AEIOU])").expect("Failed to build regular expression.");
-    static ref OVE_TO_UV_UPPER: Regex = Regex::new(r"OVE").expect("Failed to build regular expression.");
-    static ref OVE_TO_UV_LOWER: Regex = Regex::new(r"ove").expect("Failed to build regular expression.");
-    static ref HAHA_TO_HEHE_XD: Regex = Regex::new(r"\b(ha|hah|heh|hehe)+\b").expect("Failed to build regular expression.");
-    static ref THE_TO_TEH: Regex = Regex::new(r"\b([Tt])he\b").expect("Failed to build regular expression.");
-    static ref YOU_TO_U_UPPER: Regex = Regex::new(r"\bYou\b").expect("Failed to build regular expression.");
-    static ref YOU_TO_U_LOWER: Regex = Regex::new(r"\byou\b").expect("Failed to build regular expression.");
-    static ref TIME_TO_TIM: Regex = Regex::new(r"\b([Tt])ime\b").expect("Failed to build regular expression.");
-    static ref OVER_TO_OWOR: Regex = Regex::new(r"([Oo])ver").expect("Failed to build regular expression.");
-    static ref WORSE_TO_WOSE: Regex = Regex::new(r"([Ww])orse").expect("Failed to build regular expression.");
+    static ref O_TO_OWO: Regex = Regex::new(r"o").expect(RE_ERROR_MESSAGE);
+    static ref EW_TO_UWU: Regex = Regex::new(r"ew").expect(RE_ERROR_MESSAGE);
+    static ref HEY_TO_HAY: Regex = Regex::new(r"([Hh])ey").expect(RE_ERROR_MESSAGE);
+    static ref DEAD_TO_DED_UPPER: Regex = Regex::new(r"Dead").expect(RE_ERROR_MESSAGE);
+    static ref DEAD_TO_DED_LOWER: Regex = Regex::new(r"dead").expect(RE_ERROR_MESSAGE);
+    static ref N_VOWEL_T_TO_ND: Regex = Regex::new(r"n[aeiou]*t").expect(RE_ERROR_MESSAGE);
+    static ref READ_TO_WEAD_UPPER: Regex = Regex::new(r"Read").expect(RE_ERROR_MESSAGE);
+    static ref READ_TO_WEAD_LOWER: Regex = Regex::new(r"read").expect(RE_ERROR_MESSAGE);
+    static ref BRACKETS_TO_STARTRAILS_FORE: Regex = Regex::new(r"[({<]").expect(RE_ERROR_MESSAGE);
+    static ref BRACKETS_TO_STARTRAILS_REAR: Regex = Regex::new(r"[)}>]").expect(RE_ERROR_MESSAGE);
+    //static ref PERIOD_COMMA_EXCLAMATION_SEMICOLON_TO_KAOMOJIS_FIRST: Regex = Regex::new(r"[.,](?![0-9])").expect(RE_ERROR_MESSAGE);
+    static ref PERIOD_COMMA_EXCLAMATION_SEMICOLON_TO_KAOMOJIS_FIRST: Regex = Regex::new(r"[.,]").expect(RE_ERROR_MESSAGE);
+    static ref PERIOD_COMMA_EXCLAMATION_SEMICOLON_TO_KAOMOJIS_SECOND: Regex = Regex::new(r"[!;]+").expect(RE_ERROR_MESSAGE);
+    static ref THAT_TO_DAT_UPPER: Regex = Regex::new(r"That").expect(RE_ERROR_MESSAGE);
+    static ref THAT_TO_DAT_LOWER: Regex = Regex::new(r"that").expect(RE_ERROR_MESSAGE);
+    //static ref TH_TO_F_UPPER: Regex = Regex::new(r"TH(?!E)").expect(RE_ERROR_MESSAGE);
+    static ref TH_TO_F_UPPER: Regex = Regex::new(r"TH").expect(RE_ERROR_MESSAGE);
+    //static ref TH_TO_F_LOWER: Regex = Regex::new(r"[Tt]h(?![Ee])").expect(RE_ERROR_MESSAGE);
+    static ref TH_TO_F_LOWER: Regex = Regex::new(r"[Tt]h").expect(RE_ERROR_MESSAGE);
+    static ref LE_TO_WAL: Regex = Regex::new(r"le$").expect(RE_ERROR_MESSAGE);
+    static ref VE_TO_WE_UPPER: Regex = Regex::new(r"Ve").expect(RE_ERROR_MESSAGE);
+    static ref VE_TO_WE_LOWER: Regex = Regex::new(r"ve").expect(RE_ERROR_MESSAGE);
+    static ref RY_TO_WWY: Regex = Regex::new(r"ry").expect(RE_ERROR_MESSAGE);
+    static ref RORL_TO_W_UPPER: Regex = Regex::new(r"(?:R|L)").expect(RE_ERROR_MESSAGE);
+    static ref RORL_TO_W_LOWER: Regex = Regex::new(r"(?:r|l)").expect(RE_ERROR_MESSAGE);
+    static ref LL_TO_WW: Regex = Regex::new(r"ll").expect(RE_ERROR_MESSAGE);
+    static ref VOWEL_OR_R_EXCEPT_O_L_TO_WL_UPPER: Regex = Regex::new(r"[AEIUR]([lL])$").expect(RE_ERROR_MESSAGE);
+    static ref VOWEL_OR_R_EXCEPT_O_L_TO_WL_LOWER: Regex = Regex::new(r"[aeiur]l$").expect(RE_ERROR_MESSAGE);
+    static ref OLD_TO_OWLD_UPPER: Regex = Regex::new(r"OLD").expect(RE_ERROR_MESSAGE);
+    static ref OLD_TO_OWLD_LOWER: Regex = Regex::new(r"([Oo])ld").expect(RE_ERROR_MESSAGE);
+    static ref OL_TO_OWL_UPPER: Regex = Regex::new(r"OL").expect(RE_ERROR_MESSAGE);
+    static ref OL_TO_OWL_LOWER: Regex = Regex::new(r"([Oo])l").expect(RE_ERROR_MESSAGE);
+    static ref LORR_O_TO_WO_UPPER: Regex = Regex::new(r"[LR]([oO])").expect(RE_ERROR_MESSAGE);
+    static ref LORR_O_TO_WO_LOWER: Regex = Regex::new(r"[lr]o").expect(RE_ERROR_MESSAGE);
+    static ref SPECIFIC_CONSONANTS_O_TO_LETTER_AND_WO_UPPER: Regex = Regex::new(r"([BCDFGHJKMNPQSTXYZ])([oO])").expect(RE_ERROR_MESSAGE);
+    static ref SPECIFIC_CONSONANTS_O_TO_LETTER_AND_WO_LOWER: Regex = Regex::new(r"([bcdfghjkmnpqstxyz])o").expect(RE_ERROR_MESSAGE);
+    static ref VORW_LE_TO_WAL: Regex = Regex::new(r"[vw]le").expect(RE_ERROR_MESSAGE);
+    static ref FI_TO_FWI_UPPER: Regex = Regex::new(r"FI").expect(RE_ERROR_MESSAGE);
+    static ref FI_TO_FWI_LOWER: Regex = Regex::new(r"([Ff])i").expect(RE_ERROR_MESSAGE);
+    static ref VER_TO_WER: Regex = Regex::new(r"([Vv])er").expect(RE_ERROR_MESSAGE);
+    static ref POI_TO_PWOI: Regex = Regex::new(r"([Pp])oi").expect(RE_ERROR_MESSAGE);
+    static ref SPECIFIC_CONSONANTS_LE_TO_LETTER_AND_WAL: Regex = Regex::new(r"([DdFfGgHhJjPpQqRrSsTtXxYyZz])le$").expect(RE_ERROR_MESSAGE);
+    static ref CONSONANT_R_TO_CONSONANT_W: Regex = Regex::new(r"([BbCcDdFfGgKkPpQqSsTtWwXxZz])r").expect(RE_ERROR_MESSAGE);
+    static ref LY_TO_WY_UPPER: Regex = Regex::new(r"Ly").expect(RE_ERROR_MESSAGE);
+    static ref LY_TO_WY_LOWER: Regex = Regex::new(r"ly").expect(RE_ERROR_MESSAGE);
+    static ref PLE_TO_PWE: Regex = Regex::new(r"([Pp])le").expect(RE_ERROR_MESSAGE);
+    static ref NR_TO_NW_UPPER: Regex = Regex::new(r"NR").expect(RE_ERROR_MESSAGE);
+    static ref NR_TO_NW_LOWER: Regex = Regex::new(r"([Nn])r").expect(RE_ERROR_MESSAGE);
+    static ref MEM_TO_MWEM_UPPER: Regex = Regex::new(r"Mem").expect(RE_ERROR_MESSAGE);
+    static ref MEM_TO_MWEM_LOWER: Regex = Regex::new(r"mem").expect(RE_ERROR_MESSAGE);
+    static ref NYWO_TO_NYO: Regex = Regex::new("([Nn])ywo").expect(RE_ERROR_MESSAGE);
+    static ref FUC_TO_FWUC: Regex = Regex::new(r"([Ff])uc").expect(RE_ERROR_MESSAGE);
+    static ref MOM_TO_MWOM: Regex = Regex::new(r"([Mm])om").expect(RE_ERROR_MESSAGE);
+    static ref ME_TO_MWE_UPPER: Regex = Regex::new(r"^Me$").expect(RE_ERROR_MESSAGE);
+    static ref ME_TO_MWE_LOWER: Regex = Regex::new(r"^me$").expect(RE_ERROR_MESSAGE);
+    static ref N_VOWEL_TO_NY_FIRST: Regex = Regex::new(r"n([aeiou])").expect(RE_ERROR_MESSAGE);
+    static ref N_VOWEL_TO_NY_SECOND: Regex = Regex::new(r"N([aeiou])").expect(RE_ERROR_MESSAGE);
+    static ref N_VOWEL_TO_NY_THIRD: Regex = Regex::new(r"N([AEIOU])").expect(RE_ERROR_MESSAGE);
+    static ref OVE_TO_UV_UPPER: Regex = Regex::new(r"OVE").expect(RE_ERROR_MESSAGE);
+    static ref OVE_TO_UV_LOWER: Regex = Regex::new(r"ove").expect(RE_ERROR_MESSAGE);
+    static ref HAHA_TO_HEHE_XD: Regex = Regex::new(r"\b(ha|hah|heh|hehe)+\b").expect(RE_ERROR_MESSAGE);
+    static ref THE_TO_TEH: Regex = Regex::new(r"\b([Tt])he\b").expect(RE_ERROR_MESSAGE);
+    static ref YOU_TO_U_UPPER: Regex = Regex::new(r"\bYou\b").expect(RE_ERROR_MESSAGE);
+    static ref YOU_TO_U_LOWER: Regex = Regex::new(r"\byou\b").expect(RE_ERROR_MESSAGE);
+    static ref TIME_TO_TIM: Regex = Regex::new(r"\b([Tt])ime\b").expect(RE_ERROR_MESSAGE);
+    static ref OVER_TO_OWOR: Regex = Regex::new(r"([Oo])ver").expect(RE_ERROR_MESSAGE);
+    static ref WORSE_TO_WOSE: Regex = Regex::new(r"([Ww])orse").expect(RE_ERROR_MESSAGE);
+    static ref GREAT_TO_GWATE: Regex = Regex::new(r"([Gg])reat").expect(RE_ERROR_MESSAGE);
+    static ref AVIAT_TO_AWIAT: Regex = Regex::new(r"([Aa])viat").expect(RE_ERROR_MESSAGE);
+    static ref DEDICAT_TO_DEDITAT: Regex = Regex::new(r"([Dd])edicat").expect(RE_ERROR_MESSAGE);
+    static ref REMEMBER_TO_REMBER: Regex = Regex::new(r"([Rr])emember").expect(RE_ERROR_MESSAGE);
+    static ref WHEN_TO_WEN: Regex = Regex::new(r"([Ww])hen").expect(RE_ERROR_MESSAGE);
+    static ref FRIGHTENED_TO_FRIGTEN: Regex = Regex::new(r"([Ff])righten(ed)*").expect(RE_ERROR_MESSAGE);
+    static ref MEME_TO_MEM_FIRST: Regex = Regex::new(r"Meme").expect(RE_ERROR_MESSAGE);
+    static ref MEME_TO_MEM_SECOND: Regex = Regex::new(r"Mem").expect(RE_ERROR_MESSAGE);
+    static ref FEEL_TO_FELL: Regex = Regex::new(r"^([Ff])eel$").expect(RE_ERROR_MESSAGE);
 }
 
 pub(crate) const FACES: [&str; 29] = [
@@ -107,57 +122,43 @@ pub(crate) fn map_o_to_owo(input: Word) -> Word {
     } else {
         "o"
     };
-    let reg: &Regex = &*O_TO_OWO;
-    input.replace(reg, replacement, false)
+    input.replace(&*O_TO_OWO, replacement, false)
 }
 
 pub(crate) fn map_ew_to_uwu(input: Word) -> Word {
-    let reg: &Regex = &*EW_TO_UWU;
-    input.replace(reg, "uwu", false)
+    input.replace(&*EW_TO_UWU, "uwu", false)
 }
 
 pub(crate) fn map_hey_to_hay(input: Word) -> Word {
-    let reg: &Regex = &*HEY_TO_HAY;
-    input.replace(reg, "${1}ay", false)
+    input.replace(&*HEY_TO_HAY, "${1}ay", false)
 }
 
 pub(crate) fn map_dead_to_ded(input: Word) -> Word {
-    let reg_upper: &Regex = &*DEAD_TO_DED_UPPER;
-    let reg_lower: &Regex = &*DEAD_TO_DED_LOWER;
     input
-        .replace(reg_upper, "Ded", false)
-        .replace(reg_lower, "ded", false)
+        .replace(&*DEAD_TO_DED_UPPER, "Ded", false)
+        .replace(&*DEAD_TO_DED_LOWER, "ded", false)
 }
 
 pub(crate) fn map_n_vowel_t_to_nd(input: Word) -> Word {
-    let reg: &Regex = &*N_VOWEL_T_TO_ND;
-    input.replace(reg, "nd", false)
+    input.replace(&*N_VOWEL_T_TO_ND, "nd", false)
 }
 
 pub(crate) fn map_read_to_wead(input: Word) -> Word {
-    let reg_upper: &Regex = &*READ_TO_WEAD_UPPER;
-    let reg_lower: &Regex = &*READ_TO_WEAD_LOWER;
     input
-        .replace(reg_upper, "Wead", false)
-        .replace(reg_lower, "wead", false)
+        .replace(&*READ_TO_WEAD_UPPER, "Wead", false)
+        .replace(&*READ_TO_WEAD_LOWER, "wead", false)
 }
 
 pub(crate) fn map_brackets_to_star_trails(input: Word) -> Word {
-    let reg_fore: &Regex = &*BRACKETS_TO_STARTRAILS_FORE;
-    let reg_rear: &Regex = &*BRACKETS_TO_STARTRAILS_REAR;
-    input.replace(reg_fore, "｡･:*:･ﾟ★,｡･:*:･ﾟ☆", false).replace(
-        reg_rear,
-        "☆ﾟ･:*:･｡,★ﾟ･:*:･｡",
-        false,
-    )
+    input
+        .replace(&*BRACKETS_TO_STARTRAILS_FORE, "｡･:*:･ﾟ★,｡･:*:･ﾟ☆", false)
+        .replace(&*BRACKETS_TO_STARTRAILS_REAR, "☆ﾟ･:*:･｡,★ﾟ･:*:･｡", false)
 }
 
 pub(crate) fn map_period_comma_exclamation_semicolon_to_kaomojis(input: Word) -> Word {
-    let reg_first: &Regex = &*PERIOD_COMMA_EXCLAMATION_SEMICOLON_TO_KAOMOJIS_FIRST;
-    let reg_second: &Regex = &*PERIOD_COMMA_EXCLAMATION_SEMICOLON_TO_KAOMOJIS_SECOND;
     input
         .replace_with_func_single(
-            reg_first,
+            &*PERIOD_COMMA_EXCLAMATION_SEMICOLON_TO_KAOMOJIS_FIRST,
             || {
                 let mut rng = thread_rng();
                 " ".to_string()
@@ -169,7 +170,7 @@ pub(crate) fn map_period_comma_exclamation_semicolon_to_kaomojis(input: Word) ->
             false,
         )
         .replace_with_func_single(
-            reg_second,
+            &*PERIOD_COMMA_EXCLAMATION_SEMICOLON_TO_KAOMOJIS_SECOND,
             || {
                 let mut rng = thread_rng();
                 " ".to_string()
@@ -183,91 +184,74 @@ pub(crate) fn map_period_comma_exclamation_semicolon_to_kaomojis(input: Word) ->
 }
 
 pub(crate) fn map_that_to_dat(input: Word) -> Word {
-    let reg_upper: &Regex = &*THAT_TO_DAT_UPPER;
-    let reg_lower: &Regex = &*THAT_TO_DAT_LOWER;
     input
-        .replace(reg_lower, "dat", false)
-        .replace(reg_upper, "Dat", false)
+        .replace(&*THAT_TO_DAT_LOWER, "dat", false)
+        .replace(&*THAT_TO_DAT_UPPER, "Dat", false)
 }
 
 pub(crate) fn map_th_to_f(input: Word) -> Word {
-    let reg_upper: &Regex = &*TH_TO_F_UPPER;
-    let reg_lower: &Regex = &*TH_TO_F_LOWER;
     input
-        .replace(reg_lower, "f", false)
-        .replace(reg_upper, "F", false)
+        .replace(&*TH_TO_F_LOWER, "f", false)
+        .replace(&*TH_TO_F_UPPER, "F", false)
 }
 
 pub(crate) fn map_le_to_wal(input: Word) -> Word {
-    let reg: &Regex = &*LE_TO_WAL;
-    input.replace(reg, "wal", false)
+    input.replace(&*LE_TO_WAL, "wal", false)
 }
 
 pub(crate) fn map_ve_to_we(input: Word) -> Word {
-    let reg_upper: &Regex = &*VE_TO_WE_UPPER;
-    let reg_lower: &Regex = &*VE_TO_WE_LOWER;
     input
-        .replace(reg_lower, "we", false)
-        .replace(reg_upper, "We", false)
+        .replace(&*VE_TO_WE_LOWER, "we", false)
+        .replace(&*VE_TO_WE_UPPER, "We", false)
 }
 
 pub(crate) fn map_ry_to_wwy(input: Word) -> Word {
-    let reg: &Regex = &*RY_TO_WWY;
-    input.replace(reg, "wwy", false)
+    input.replace(&*RY_TO_WWY, "wwy", false)
 }
 
 pub(crate) fn map_r_or_l_to_w(input: Word) -> Word {
-    let reg_upper: &Regex = &*RORL_TO_W_UPPER;
-    let reg_lower: &Regex = &*RORL_TO_W_LOWER;
     input
-        .replace(reg_lower, "w", false)
-        .replace(reg_upper, "W", false)
+        .replace(&*RORL_TO_W_LOWER, "w", false)
+        .replace(&*RORL_TO_W_UPPER, "W", false)
 }
 
 pub(crate) fn map_ll_to_ww(input: Word) -> Word {
-    let reg: &Regex = &*LL_TO_WW;
-    input.replace(reg, "ww", false)
+    input.replace(&*LL_TO_WW, "ww", false)
 }
 
 pub(crate) fn map_vowel_or_r_except_o_l_to_wl(input: Word) -> Word {
-    let reg_upper: &Regex = &*VOWEL_OR_R_EXCEPT_O_L_TO_WL_UPPER;
-    let reg_lower: &Regex = &*VOWEL_OR_R_EXCEPT_O_L_TO_WL_LOWER;
     input
-        .replace(reg_lower, "wl", false)
-        .replace(reg_upper, "W${1}", false)
+        .replace(&*VOWEL_OR_R_EXCEPT_O_L_TO_WL_LOWER, "wl", false)
+        .replace(&*VOWEL_OR_R_EXCEPT_O_L_TO_WL_UPPER, "W${1}", false)
 }
 
 pub(crate) fn map_old_to_owld(input: Word) -> Word {
-    let reg_upper: &Regex = &*OLD_TO_OWLD_UPPER;
-    let reg_lower: &Regex = &*OLD_TO_OWLD_LOWER;
     input
-        .replace(reg_lower, "${1}wld", false)
-        .replace(reg_upper, "OWLD", false)
+        .replace(&*OLD_TO_OWLD_LOWER, "${1}wld", false)
+        .replace(&*OLD_TO_OWLD_UPPER, "OWLD", false)
 }
 
 pub(crate) fn map_ol_to_owl(input: Word) -> Word {
-    let reg_upper: &Regex = &*OL_TO_OWL_UPPER;
-    let reg_lower: &Regex = &*OL_TO_OWL_LOWER;
     input
-        .replace(reg_lower, "${1}wl", false)
-        .replace(reg_upper, "OWL", false)
+        .replace(&*OL_TO_OWL_LOWER, "${1}wl", false)
+        .replace(&*OL_TO_OWL_UPPER, "OWL", false)
 }
 
 pub(crate) fn map_l_or_r_o_to_wo(input: Word) -> Word {
-    let reg_upper: &Regex = &*LORR_O_TO_WO_UPPER;
-    let reg_lower: &Regex = &*LORR_O_TO_WO_LOWER;
     input
-        .replace(reg_lower, "wo", false)
-        .replace(reg_upper, "W${1}", false)
+        .replace(&*LORR_O_TO_WO_LOWER, "wo", false)
+        .replace(&*LORR_O_TO_WO_UPPER, "W${1}", false)
 }
 
 pub(crate) fn map_specific_consonants_o_to_letter_and_wo(input: Word) -> Word {
-    let reg_upper: &Regex = &*SPECIFIC_CONSONANTS_O_TO_LETTER_AND_WO_UPPER;
-    let reg_lower: &Regex = &*SPECIFIC_CONSONANTS_O_TO_LETTER_AND_WO_LOWER;
     input
-        .replace(reg_lower, "${1}wo", false)
+        .replace(
+            &*SPECIFIC_CONSONANTS_O_TO_LETTER_AND_WO_LOWER,
+            "${1}wo",
+            false,
+        )
         .replace_with_func_multiple(
-            reg_upper,
+            &*SPECIFIC_CONSONANTS_O_TO_LETTER_AND_WO_UPPER,
             |s1, s2| {
                 let mut msg = s1.to_string();
                 msg += if s2.to_uppercase() == *s2 { "W" } else { "w" };
@@ -279,121 +263,140 @@ pub(crate) fn map_specific_consonants_o_to_letter_and_wo(input: Word) -> Word {
 }
 
 pub(crate) fn map_v_or_w_le_to_wal(input: Word) -> Word {
-    let reg: &Regex = &*LE_TO_WAL;
-    input.replace(reg, "wal", false)
+    input.replace(&*LE_TO_WAL, "wal", false)
 }
 
 pub(crate) fn map_fi_to_fwi(input: Word) -> Word {
-    let reg_upper: &Regex = &*FI_TO_FWI_UPPER;
-    let reg_lower: &Regex = &*FI_TO_FWI_LOWER;
     input
-        .replace(reg_lower, "${1}wi", false)
-        .replace(reg_upper, "FWI", false)
+        .replace(&*FI_TO_FWI_LOWER, "${1}wi", false)
+        .replace(&*FI_TO_FWI_UPPER, "FWI", false)
 }
 
 pub(crate) fn map_ver_to_wer(input: Word) -> Word {
-    let reg: &Regex = &*VER_TO_WER;
-    input.replace(reg, "wer", false)
+    input.replace(&*VER_TO_WER, "wer", false)
 }
 
 pub(crate) fn map_poi_to_pwoi(input: Word) -> Word {
-    let reg: &Regex = &*POI_TO_PWOI;
-    input.replace(reg, "${1}woi", false)
+    input.replace(&*POI_TO_PWOI, "${1}woi", false)
 }
 
 pub(crate) fn map_specific_consonants_le_to_letter_and_wal(input: Word) -> Word {
-    let reg: &Regex = &*SPECIFIC_CONSONANTS_LE_TO_LETTER_AND_WAL;
-    input.replace(reg, "${1}wal", false)
+    input.replace(&*SPECIFIC_CONSONANTS_LE_TO_LETTER_AND_WAL, "${1}wal", false)
 }
 
 pub(crate) fn map_consonant_r_to_consonant_w(input: Word) -> Word {
-    let reg: &Regex = &*CONSONANT_R_TO_CONSONANT_W;
-    input.replace(reg, "${1}w", false)
+    input.replace(&*CONSONANT_R_TO_CONSONANT_W, "${1}w", false)
 }
 
 pub(crate) fn map_ly_to_wy(input: Word) -> Word {
-    let reg_upper: &Regex = &*LY_TO_WY_UPPER;
-    let reg_lower: &Regex = &*LY_TO_WY_LOWER;
     input
-        .replace(reg_lower, "wy", false)
-        .replace(reg_upper, "Wy", false)
+        .replace(&*LY_TO_WY_LOWER, "wy", false)
+        .replace(&*LY_TO_WY_UPPER, "Wy", false)
 }
 
 pub(crate) fn map_ple_to_pwe(input: Word) -> Word {
-    let reg: &Regex = &*PLE_TO_PWE;
-    input.replace(reg, "${1}we", false)
+    input.replace(&*PLE_TO_PWE, "${1}we", false)
 }
 
 pub(crate) fn map_nr_to_nw(input: Word) -> Word {
-    let reg_upper: &Regex = &*NR_TO_NW_UPPER;
-    let reg_lower: &Regex = &*NR_TO_NW_LOWER;
     input
-        .replace(reg_lower, "nw", false)
-        .replace(reg_upper, "NW", false)
+        .replace(&*NR_TO_NW_LOWER, "${1}w", false)
+        .replace(&*NR_TO_NW_UPPER, "NW", false)
+}
+
+pub(crate) fn map_mem_to_mwem(input: Word) -> Word {
+    input
+        .replace(&*MEM_TO_MWEM_UPPER, "mwem", false)
+        .replace(&*MEM_TO_MWEM_LOWER, "Mwem", false)
+}
+
+pub(crate) fn unmap_nywo_to_nyo(input: Word) -> Word {
+    input.replace(&*NYWO_TO_NYO, "${1}yo", false)
 }
 
 pub(crate) fn map_fuc_to_fwuc(input: Word) -> Word {
-    let reg: &Regex = &*FUC_TO_FWUC;
-    input.replace(reg, "${1}wuc", false)
+    input.replace(&*FUC_TO_FWUC, "${1}wuc", false)
 }
 
 pub(crate) fn map_mom_to_mwom(input: Word) -> Word {
-    let reg: &Regex = &*MOM_TO_MWOM;
-    input.replace(reg, "${1}wom", false)
+    input.replace(&*MOM_TO_MWOM, "${1}wom", false)
 }
 
 pub(crate) fn map_me_to_mwe(input: Word) -> Word {
-    let reg: &Regex = &*ME_TO_MWE;
-    input.replace(reg, "${1}we", false)
+    input
+        .replace(&*ME_TO_MWE_UPPER, "Mwe", false)
+        .replace(&*ME_TO_MWE_LOWER, "mwe", false)
 }
 
 pub(crate) fn map_n_vowel_to_ny(input: Word) -> Word {
-    let reg_first: &Regex = &*N_VOWEL_TO_NY_FIRST;
-    let reg_second: &Regex = &*N_VOWEL_TO_NY_SECOND;
-    let reg_third: &Regex = &*N_VOWEL_TO_NY_THIRD;
     input
-        .replace(reg_first, "ny${1}", false)
-        .replace(reg_second, "Ny${1}", false)
-        .replace(reg_third, "NY${1}", false)
+        .replace(&*N_VOWEL_TO_NY_FIRST, "ny${1}", false)
+        .replace(&*N_VOWEL_TO_NY_SECOND, "Ny${1}", false)
+        .replace(&*N_VOWEL_TO_NY_THIRD, "NY${1}", false)
 }
 
 pub(crate) fn map_ove_to_uv(input: Word) -> Word {
-    let reg_upper: &Regex = &*OVE_TO_UV_UPPER;
-    let reg_lower: &Regex = &*OVE_TO_UV_LOWER;
     input
-        .replace(reg_lower, "uv", false)
-        .replace(reg_upper, "UV", false)
+        .replace(&*OVE_TO_UV_LOWER, "uv", false)
+        .replace(&*OVE_TO_UV_UPPER, "UV", false)
 }
 
 pub(crate) fn map_haha_to_hehe_xd(input: Word) -> Word {
-    let reg: &Regex = &*HAHA_TO_HEHE_XD;
-    input.replace(reg, "hehe xD", false)
+    input.replace(&*HAHA_TO_HEHE_XD, "hehe xD", false)
 }
 
 pub(crate) fn map_the_to_teh(input: Word) -> Word {
-    let reg: &Regex = &*THE_TO_TEH;
-    input.replace(reg, "${1}eh", false)
+    input.replace(&*THE_TO_TEH, "${1}eh", false)
 }
 
 pub(crate) fn map_you_to_u(input: Word) -> Word {
-    let reg_upper: &Regex = &*YOU_TO_U_UPPER;
-    let reg_lower: &Regex = &*YOU_TO_U_LOWER;
     input
-        .replace(reg_upper, "U", false)
-        .replace(reg_lower, "u", false)
+        .replace(&*YOU_TO_U_UPPER, "U", false)
+        .replace(&*YOU_TO_U_LOWER, "u", false)
 }
 
 pub(crate) fn map_time_to_tim(input: Word) -> Word {
-    let reg: &Regex = &*TIME_TO_TIM;
-    input.replace(reg, "${1}im", false)
+    input.replace(&*TIME_TO_TIM, "${1}im", false)
 }
 
 pub(crate) fn map_over_to_owor(input: Word) -> Word {
-    let reg: &Regex = &*OVER_TO_OWOR;
-    input.replace(reg, "${1}wor", false)
+    input.replace(&*OVER_TO_OWOR, "${1}wor", false)
 }
 
 pub(crate) fn map_worse_to_wose(input: Word) -> Word {
-    let reg: &Regex = &*WORSE_TO_WOSE;
-    input.replace(reg, "${1}ose", false)
+    input.replace(&*WORSE_TO_WOSE, "${1}ose", false)
+}
+
+pub(crate) fn map_great_to_gwate(input: Word) -> Word {
+    input.replace(&*GREAT_TO_GWATE, "${1}wate", false)
+}
+
+pub(crate) fn map_aviat_to_awiat(input: Word) -> Word {
+    input.replace(&*AVIAT_TO_AWIAT, "${1}wiat", false)
+}
+
+pub(crate) fn map_dedicat_to_deditat(input: Word) -> Word {
+    input.replace(&*DEDICAT_TO_DEDITAT, "${1}editat", false)
+}
+
+pub(crate) fn map_remember_to_rember(input: Word) -> Word {
+    input.replace(&*REMEMBER_TO_REMBER, "${1}ember", false)
+}
+
+pub(crate) fn map_when_to_wen(input: Word) -> Word {
+    input.replace(&*WHEN_TO_WEN, "${1}en", false)
+}
+
+pub(crate) fn map_frightened_to_frigten(input: Word) -> Word {
+    input.replace(&*FRIGHTENED_TO_FRIGTEN, "${1}rigten", false)
+}
+
+pub(crate) fn map_meme_to_mem(input: Word) -> Word {
+    input
+        .replace(&*MEME_TO_MEM_FIRST, "mem", false)
+        .replace(&*MEME_TO_MEM_SECOND, "Mem", false)
+}
+
+pub(crate) fn map_feel_to_fell(input: Word) -> Word {
+    input.replace(&*FEEL_TO_FELL, "${1}ell", false)
 }

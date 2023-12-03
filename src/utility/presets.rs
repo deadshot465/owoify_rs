@@ -1,12 +1,11 @@
 use crate::structures::Word;
 use crate::utility::mappings::*;
 
-pub(crate) const SPECIFIC_WORD_MAPPING_LIST: [fn(Word) -> Word; 12] = [
+pub(crate) const SPECIFIC_WORD_MAPPING_LIST: [fn(Word) -> Word; 19] = [
     map_fuc_to_fwuc,
     map_mom_to_mwom,
     map_time_to_tim,
     map_me_to_mwe,
-    map_n_vowel_to_ny,
     map_over_to_owor,
     map_ove_to_uv,
     map_haha_to_hehe_xd,
@@ -14,6 +13,14 @@ pub(crate) const SPECIFIC_WORD_MAPPING_LIST: [fn(Word) -> Word; 12] = [
     map_you_to_u,
     map_read_to_wead,
     map_worse_to_wose,
+    map_great_to_gwate,
+    map_aviat_to_awiat,
+    map_dedicat_to_deditat,
+    map_remember_to_rember,
+    map_when_to_wen,
+    map_frightened_to_frigten,
+    map_meme_to_mem,
+    map_feel_to_fell,
 ];
 
 pub(crate) const UVU_MAPPING_LIST: [fn(Word) -> Word; 5] = [
@@ -35,7 +42,8 @@ pub(crate) const UWU_MAPPING_LIST: [fn(Word) -> Word; 8] = [
     map_r_or_l_to_w,
 ];
 
-pub(crate) const OWO_MAPPING_LIST: [fn(Word) -> Word; 15] = [
+pub(crate) const OWO_MAPPING_LIST: [fn(Word) -> Word; 18] = [
+    map_n_vowel_to_ny,
     map_ll_to_ww,
     map_vowel_or_r_except_o_l_to_wl,
     map_old_to_owld,
@@ -51,4 +59,6 @@ pub(crate) const OWO_MAPPING_LIST: [fn(Word) -> Word; 15] = [
     map_ly_to_wy,
     map_ple_to_pwe,
     map_nr_to_nw,
+    map_mem_to_mwem,
+    unmap_nywo_to_nyo,
 ];

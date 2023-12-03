@@ -31,6 +31,12 @@ pub trait Owoifiable {
 
     /// Owoifies the source using the specified owoness level and returns a new `String`.
     fn owoify(&self, level: OwoifyLevel) -> Self::ResultType;
+
+    /// Owoifies the source using `Uwu` owoness.
+    fn uwuify(&self) -> Self::ResultType;
+
+    /// Owoifies the source using `Uvu` owoness.
+    fn uvuify(&self) -> Self::ResultType;
 }
 
 impl Owoifiable for String {
@@ -47,6 +53,14 @@ impl Owoifiable for String {
     /// ```
     fn owoify(&self, level: OwoifyLevel) -> Self::ResultType {
         self.as_str().owoify(level)
+    }
+
+    fn uwuify(&self) -> Self::ResultType {
+        self.as_str().uwuify()
+    }
+
+    fn uvuify(&self) -> Self::ResultType {
+        self.as_str().uvuify()
     }
 }
 
@@ -131,6 +145,14 @@ impl Owoifiable for &str {
         let result_string: String = result.iter().map(ToString::to_string).collect();
         result_string
     }
+
+    fn uwuify(&self) -> Self::ResultType {
+        self.owoify(OwoifyLevel::Uwu)
+    }
+
+    fn uvuify(&self) -> Self::ResultType {
+        self.owoify(OwoifyLevel::Uvu)
+    }
 }
 
 impl Owoifiable for Vec<u8> {
@@ -141,6 +163,16 @@ impl Owoifiable for Vec<u8> {
     fn owoify(&self, level: OwoifyLevel) -> Self::ResultType {
         let clone = self.clone();
         String::from_utf8(clone).map(|s| s.owoify(level))
+    }
+
+    fn uwuify(&self) -> Self::ResultType {
+        let clone = self.clone();
+        String::from_utf8(clone).map(|s| s.uwuify())
+    }
+
+    fn uvuify(&self) -> Self::ResultType {
+        let clone = self.clone();
+        String::from_utf8(clone).map(|s| s.uvuify())
     }
 }
 
@@ -155,6 +187,20 @@ impl Owoifiable for &[u8] {
         match String::from_utf8_lossy(self) {
             Cow::Borrowed(s) => s.owoify(level),
             Cow::Owned(s) => s.owoify(level),
+        }
+    }
+
+    fn uwuify(&self) -> Self::ResultType {
+        match String::from_utf8_lossy(self) {
+            Cow::Borrowed(s) => s.uwuify(),
+            Cow::Owned(s) => s.uwuify(),
+        }
+    }
+
+    fn uvuify(&self) -> Self::ResultType {
+        match String::from_utf8_lossy(self) {
+            Cow::Borrowed(s) => s.uvuify(),
+            Cow::Owned(s) => s.uvuify(),
         }
     }
 }
