@@ -117,7 +117,8 @@ pub(crate) const FACES: [&str; 29] = [
 ];
 
 pub(crate) fn map_o_to_owo(input: Word) -> Word {
-    let replacement = if thread_rng().gen_range(0..2) > 0 {
+    let mut rng = rand::rng();
+    let replacement = if rng.random_range(0..2) > 0 {
         "owo"
     } else {
         "o"
@@ -160,7 +161,7 @@ pub(crate) fn map_period_comma_exclamation_semicolon_to_kaomojis(input: Word) ->
         .replace_with_func_single(
             &*PERIOD_COMMA_EXCLAMATION_SEMICOLON_TO_KAOMOJIS_FIRST,
             || {
-                let mut rng = thread_rng();
+                let mut rng = rand::rng();
                 " ".to_string()
                     + FACES
                         .choose(&mut rng)
@@ -172,7 +173,7 @@ pub(crate) fn map_period_comma_exclamation_semicolon_to_kaomojis(input: Word) ->
         .replace_with_func_single(
             &*PERIOD_COMMA_EXCLAMATION_SEMICOLON_TO_KAOMOJIS_SECOND,
             || {
-                let mut rng = thread_rng();
+                let mut rng = rand::rng();
                 " ".to_string()
                     + FACES
                         .choose(&mut rng)
