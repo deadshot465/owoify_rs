@@ -22,7 +22,7 @@ While there is already an [owoify](https://crates.io/crates/owoify) crate on cra
 Just like any crates, simply put this line inside your `Cargo.toml`:
 ```toml
 [dependencies]
-owoify_rs = "~1.0.0"
+owoify_rs = "~2.0.0"
 ```
 Alternatively, pull the crate directly from the repository:
 ```toml
